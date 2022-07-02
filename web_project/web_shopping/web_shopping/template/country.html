@@ -1,0 +1,159 @@
+{% extends "main.html" %}{% load static %}
+{% block title %}Web Shopping{% endblock %}
+{% block content %}
+<div class="container-lg">
+    <div>
+        <form id="frm-create" class="mx-auto" style="max-width:700px !important;" method="POST" action=".">{% csrf_token %}
+            <input id="txt-action" type="hidden" name="action" value="save">
+            <input id="txt-page" type="hidden" name="page" value="{{ page }}">
+            <div class="form-group row">
+                <div class="col-sm-6">
+                    <label for="txt-country" class="form-label">Country Name</label>
+                    <input type="text" class="form-control" id="txt-country" name="country-name" aria-describedby=""
+                        required>
+                </div>
+                <div class="col-sm-6">
+                    <label for="txt-alpha2-code" class="form-label">Alpha2 Code</label>
+                    <input type="text" class="form-control" id="txt-alpha2-code" name="alpha2-code" aria-describedby=""
+                        required>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-6">
+                    <label for="txt-alpha3-code" class="form-label">Alpha3 Code</label>
+                    <input type="text" class="form-control" id="txt-alpha3-code" name="alpha3-code" aria-describedby=""
+                        required>
+                </div>
+                <div class="col-sm-6">
+                    <label for="txt-numeric-country" class="form-label">Numeric Country</label>
+                    <input type="text" class="form-control" id="txt-numeric-country" name="numeric-country"
+                        aria-describedby="" required>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-6">
+                    <label for="txt-country-detail" class="form-label">Country Detail</label>
+                    <input type="text" class="form-control" id="txt-country-detail" name="country-detail"
+                        aria-describedby="" required>
+                </div>
+            </div>
+            <div class="form-group row mt-1">
+                <div class="col-sm-6">
+                    <button type="submit" class="btn btn-primary">SUBMIT</button>
+                </div>
+            </div>
+            {% if state %}
+            {% if message %}
+            <div class="alert alert-success alert-dismissible fade show mt-1" role="alert">
+                {{message}}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endif %}
+            {% else %}
+            {% if message %}
+            <div class="alert alert-danger alert-dismissible fade show mt-1" role="alert">
+                {{message}}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endif %}
+            {% endif %}
+        </form>
+    </div>
+    <!-- PAGINATION OPTION -->
+    <nav aria-label="" class="position-fixed" style="margin-left:20%;">
+        <ul class="pagination pagination-lg justify-content-center">
+            {%if countries.number <= 1 %} <li class="pagination-option-menu page-item disabled">
+                <a class="page-link">Previous</a>
+                </li>
+                {% else %}
+                <li class="pagination-option-menu page-item">
+                    <a class="page-link" href="?page={{ countries.number|add:'-1' }}">Previous</a>
+                </li>
+                {% endif %}
+                <!-- SELECTOR PAGINATION -->
+                <div class="mx-auto selector-option-menu">
+                    <form id="frm-selector" method="GET" action=".">
+                        <input id="txt-page" type="hidden" name="page" value="{{ page }}">
+                        <input id="txt-pagination" name="page" type="hidden">
+                        <select id="cmb-option" class="pagination-option-menu page-item form-select form-select-xs page-link" style="margin-top: -10px;"
+                            aria-label=".form-select-lg countries" onchange="selection_page()">
+                            {% if options %}
+                            {% for op in options %}
+                            {% if op == page %}
+                            <option value="{{option}}" checked>{{op}}</option>
+                            {% else %}
+
+                            <option value="{{option}}">{{op}}</option>
+                            {% endif %}
+                            {% endfor %}
+                            {% endif %}
+                        </select>
+                    </form>
+                </div>
+                {%if countries.number == size %}
+                <li class="pagination-option-menu page-item disabled">
+                    <a class="page-link" href="">Next</a>
+                </li>
+                {% else %}
+                <li class="pagination-option-menu page-item">
+                    <a class="page-link" href="?page={{ countries.number|add:'1' }}">Next</a>
+                </li>
+                {% endif %}
+        </ul>
+    </nav>
+    <!-- DATA TABLE-->
+    <table class="table mt-5 mx-auto">
+        <thead>
+            <tr>
+                {% if headers %}
+                {% for header in headers %}
+                <th scope="col">{{ header }}</th>
+                {% endfor %}
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% if countries %}
+            {% for country in countries %}
+            <tr>
+                <td>{{ country.id }}</td>
+                <td>{{ country.country_name }}</td>
+                <td>{{ country.alpha2_code }}</td>
+                <td>{{ country.alpha3_code }}</td>
+                <td>{{ country.numeric_country }}</td>
+                <td>{{ country.country_detail }}</td>
+                <td>
+                    <form id="frm-delete" method="POST" action=".">{% csrf_token %}
+                        <input id="txt-page" type="hidden" name="page" value="{{ page }}">
+                        <input id="txt-action" type="hidden" name="action" value="delete">
+                        <input id="txt-id" type="hidden" name="id" value="{{ country.id }}">
+                        <button type="submit" class="btn btn-danger"><i class="bi bi-trash"></i></button>
+                    </form>
+                </td>
+                <td>
+                    <button type="submit" class="btn btn-warning"><i class="bi bi-pencil-square"></i></button>
+                </td>
+            </tr>
+            {% endfor %}
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+<script>
+    function selection_page() {
+        /*let combobox = document.getElementById("cmb-option")
+        console.log('combobox -> ' + combobox.text)*/arguments
+        /*prefer = (document.getElementById("frm-selector"));
+        alert("You prefer browsing internet with " + prefer.getElementById("cmb-option").text);*/
+    }
+    /*var selectChange = document.getElementById("cmb-option");
+    selectChange.addEventListener("change", function () {
+        document.getElementById("txt-pagination").value = selectChange.value;
+        console.log(selectChange.value)
+        console.log(document.getElementById("txt-pagination").value)
+        document.getElementById("frm-selector").submit();
+    });*/
+</script>
+{% endblock %}
+{% block footer %}
+{% endblock %}

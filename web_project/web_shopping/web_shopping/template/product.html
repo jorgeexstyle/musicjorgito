@@ -1,0 +1,26 @@
+{% extends "main.html" %}{% load static %}
+{% block title %}Web Shopping{% endblock %}
+{% block content %}
+
+<div class="container">
+    <div class="row row-cols-auto">
+        {% for product in products %}
+        <div class="col">
+            <div style="width: 250px; height: 250px;;"class="border border-secondary col mx-1 my-1">
+                <div class="w-75 h-75 mx-auto my-auto">
+                    <img src="{% static product.img_url %}" class="figure-img rounded w-75" alt="...">
+                </div>                            
+            </div>
+            <div style="width: 250px; height: 100px;;"class="border border-secondary col mx-1 my-1">
+                <div>{{product.product_name}}</div>
+                <div>{{product.product_description}}</div>
+                <div>{{product.unit_sell_price}}</div>  
+                <div><button id="" class="btn btn-success"><i class="bi bi-plus-circle"></i></button></div>  
+            </div>
+        </div>
+        {% endfor %}
+      </div>
+</div>
+{% endblock %}
+{% block footer %}
+{% endblock %}

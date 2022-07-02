@@ -1,0 +1,148 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+  <link rel="stylesheet" href="{% static 'css/bootstrap/icons/bootstrap-icons.css' %}">
+</head>
+
+<body>
+  <header>
+    <!-- NAVBAR MENU-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <!-- MENU -->
+        <div class="">
+          <a href="/home/"><img src="{% static 'img/icon/home32x32x.png' %}" alt=""></a>
+          {% if user.is_authenticated %}
+          <button class="btn btn-outline-primary ms-2 bi bi-microsoft" type="button" data-bs-toggle="offcanvas"
+            data-bs-target="#offcanvas-menu" aria-controls="offcanvas-menu "></button>
+          {% endif %}
+        </div>
+        <!--LOGIN BUTTON -->
+        <button class="btn btn-outline-success ml-auto bi bi-person-circle" type="button" data-bs-toggle="offcanvas"
+          data-bs-target="#offcanvas-right" aria-controls="offcanvasRight"></button>
+
+      </div>
+    </nav>
+    {% if user.is_authenticated %}
+    <!-- OFFCANVAS MENU-->
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvas-menu" aria-labelledby="offcanvas-menu-label">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvas-menu-label"></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        <div class="icon">          
+          <img src="{% static 'img/icon/settings.png' %}" alt="">
+        </div>
+        <div class="offcanvas-menu">
+          {% if perms.country.view_country %}
+          <ul class="option" aria-labelledby="dropdown-menu-button">
+            <a class="" href="/country"><li class=""><i class="bi bi-globe"></i> Country</li></a>
+          </ul>
+          {% endif %}
+          {% if perms.country.view_state%}
+          <ul class="option" aria-labelledby="dropdown-menu-button">
+            <a class="" href="/state"><li class=""><i class="bi bi-map"></i> State</li></a>
+          </ul>
+          {% endif %}
+          {% if perms.country.view_city%}
+          <ul class="option" aria-labelledby="dropdown-menu-button">
+            <a class="" href="/city"><li class=""><i class="bi bi-building"></i> City</li></a>
+          </ul>
+          {% endif %}
+          <ul class="option" aria-labelledby="dropdown-menu-button">
+            <a class="" href="/products"><li class=""><i class="bi bi-shopping"></i> Product</li></a>
+          </ul>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+    <!-- OFFCANVAS LOGIN-->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvas-right" aria-labelledby="offcanvas-right-label">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvas-right-label"></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      {% if user.is_authenticated %}  
+      <div class="offcanvas-body">
+        <div class="icon">
+          <img src="{% static 'img/icon/man.png' %}" alt="">         
+        </div>
+        <div class="user-data-login">
+          <p>{{ user.email }}</p>
+          <p>{{ user.username }}</p>
+          <p>{{ user.first_name}} {{ user.last_name}}</p>
+        </div>
+        <div class="offcanvas-login">
+          <div class="row">
+            <div class="col-sm-3">            
+            </div>
+            <div class="col-sm-6">
+              <div class="row">
+                <div class="col-sm-6">
+                  <form method="GET" action="/edit-user">
+                  <button class="btn btn-outline-primary ms-2 bi bi-pencil-square" type="submit"></button>
+                  </form>            
+                </div>                
+                <div class="col-sm-6">
+                  <form method="POST" action="/logout">{% csrf_token %}
+                    <button class="btn btn-outline-primary ms-2 bi bi-door-open" type="submit"></button>
+                  </form>            
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3">             
+            </div>
+          </div>                                         
+        </div>       
+      </div>
+      {% else %}          
+      <div class="offcanvas-body">
+        <form method="POST" action="/login">{% csrf_token %}
+          <div class="mb-3">
+            <label for="txt-username" class="form-label">User</label>
+            <input type="text" required class="form-control" id="txt-username" name="username" aria-describedby="emailHelp"
+              placeholder="Username">
+          </div>
+          <div class="mb-3">
+            <label for="txt-password" class="form-label">Password</label>
+            <input type="password" class="form-control" id="txt-password" name="password" required placeholder="**********">
+          </div>
+          <div class="row">
+            <div class="col-sm-6 ">
+              <button type="submit" class="m-1 w-100 btn btn-success bi bi-person"> LOGIN</button>              
+            </div>
+            <div class="col-sm-6 ">
+              <a href="/verification-recovery" class="m-1 w-100 btn btn-primary"><i class="bi bi-envelope"></i> Recovery</a>              
+            </div>                        
+          </div>
+        </form>     
+      </div>
+
+      </div>
+      {% endif %}          
+    </div>
+  </header>
+  <main>{% block content %}{% endblock %}</main>
+  <footer class="bg-dark text-center text-lg-start">
+    <!-- Copyright -->
+    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+      © 2022-2023 Copyright:
+      <a class="text-white" href="https://github.com/jorgeexstyle">Jorge Espinoza (jorge)</a>
+    </div>
+    <!-- Copyright -->
+  </footer>
+  <script src="{% static 'js/jquery/jquery-3.6.0.min.js' %}"></script>
+  <script src="{% static 'js/popper/popper.min.js' %}"></script>
+  <script src="{% static 'js/bootstrap/bootstrap.min.js' %}"></script>
+</body>
+
+</html>

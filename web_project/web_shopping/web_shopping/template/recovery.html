@@ -1,0 +1,26 @@
+{% extends "main.html" %}{% load static %}
+{% block title %}Web Shopping{% endblock %}
+{% block content %}
+
+<div class="container-lg">
+    <div>
+        {% if state %}
+        {% if message %}
+        <div class="alert alert-success alert-dismissible fade show mt-1" role="alert">
+            {{message}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endif %}
+        {% else %}
+        {% if message %}
+        <div class="alert alert-danger alert-dismissible fade show mt-1" role="alert">
+            {{message}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endif %}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+{% block footer %}
+{% endblock %}

@@ -1,0 +1,88 @@
+/* OFFCANVAS MENU INIT*/
+.offcanvas {
+	background-color: #000000 !important;
+	color: #FFFFFF !important;
+}
+
+.bg-dark {
+	background-color: #000000 !important;
+	color: #FFFFFF !important;
+}
+
+.btn-close {
+	background-color: #FFFFFF !important;
+}
+
+.offcanvas-menu {
+	margin-top: 25px;
+}
+
+.icon {
+	margin-left: 30%;
+}
+
+.user-data-login p {
+	color: #FFFFFF !important;
+	text-decoration: none;
+	margin-left: 5rem;
+}
+
+.selector-option-menu {
+	width: 120px !important;
+	/*margin: auto !important;*/
+	margin-top: 10px !important;
+	margin-bottom: 10px !important;
+	text-align: center !important;
+}
+
+.pagination-option-menu {
+	width: 120px !important;
+}
+
+.margin-top-bottom {
+	margin-top: 10px !important;
+	margin-bottom: 10px  !important;
+}
+
+.option li {
+	list-style: none;
+	text-decoration: none;
+	width: 100%;
+	margin-top: 2px;
+	margin-bottom: 2px;
+	border: 1px solid #000000;
+	border-radius: 0.25rem;
+	cursor: pointer;
+	font-size: 0.8em;
+}
+
+.option li:hover {
+	color: #0d6efd !important;
+	border: 1px solid #0d6efd;
+	border-radius: 0.25rem;
+	cursor: pointer;
+}
+
+.option a:hover {
+	color: #0d6efd !important;
+	text-decoration: none;
+	margin-left: 3rem;
+}
+
+.option a {
+	color: #FFFFFF !important;
+	text-decoration: none;
+	margin-left: 3rem;
+}
+
+.option li a:hover {
+	color: #0d6efd !important;
+	text-decoration: none;
+	margin-left: 3rem;
+}
+/* OFFCANVAS MENU FINISH*/
+
+.footer {
+  position: fixed !important;
+  width: 100%;
+}
